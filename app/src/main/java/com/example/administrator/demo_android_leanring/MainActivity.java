@@ -2,6 +2,7 @@ package com.example.administrator.demo_android_leanring;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ public class MainActivity extends Activity {
     private Context mContext;
     private TextView tv_question;
     private Button btn_left, btn_right;
+    private Button btn_cheat;
     private ImageButton btn_previous, btn_next;
     private MyOnClickListener myOnClickListener;
 
@@ -63,6 +65,9 @@ public class MainActivity extends Activity {
         btn_right.setOnClickListener(myOnClickListener);
         btn_previous.setOnClickListener(myOnClickListener);
         btn_next.setOnClickListener(myOnClickListener);
+
+        btn_cheat = (Button) findViewById(R.id.btn_cheat);
+        btn_cheat.setOnClickListener(myOnClickListener);
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -86,6 +91,13 @@ public class MainActivity extends Activity {
                 case R.id.btn_next:
                     mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                     updateQuestion();
+                    break;
+                case R.id.btn_cheat:
+                    Intent intent = new Intent(mContext, CheatActivity.class);
+                    //activity调用startActivity(...)方法时，调用请求发给了操作系统
+                    //该方法调用请求是发送给操作系统的ActivityManager，
+                    //ActivityManager负责创建Activity实例并调用其onCreate(...)方法
+                    startActivity(intent);
                     break;
                 default:
                     break;
