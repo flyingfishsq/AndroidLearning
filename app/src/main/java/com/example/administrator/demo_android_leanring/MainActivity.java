@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 
     private int mCurrentIndex = 0;
 
-    private TrueFalse[] mQuestionBank = new TrueFalse[]{
+    private final TrueFalse[] mQuestionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_oceans, true),
             new TrueFalse(R.string.question_mideast, false),
             new TrueFalse(R.string.question_africa, false),
@@ -94,6 +94,9 @@ public class MainActivity extends Activity {
     }
 
     private void updateQuestion() {
+        //以抛异常的输出方式，跟踪一个方法，与在这里写个每次调用即打印输出语句的意义相似，
+        // 但是更明显，能够跟踪到方法调用的栈
+//        Log.e(TAG, "Updating question text for question # " + mCurrentIndex, new Exception());
         int question = mQuestionBank[mCurrentIndex].getQuestion();
         tv_question.setText(question);
     }
@@ -110,9 +113,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     *
-     * @param savedInstanceState
-     * 为了旋转屏幕会被刷新的数据做个保存
+     * @param savedInstanceState 为了旋转屏幕会被刷新的数据做个保存
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
