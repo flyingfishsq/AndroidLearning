@@ -16,7 +16,9 @@ import com.example.administrator.demo_android_leanring.Bean.TrueFalse;
 public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    //这两个键名用于在转屏时记录一些变量
     private static final String KEY_INDEX = "index";
+    private static final String KEY_HAS_CHEAT = "has_cheat";
 
     private Context mContext;
     private TextView tv_question;
@@ -26,6 +28,8 @@ public class MainActivity extends Activity {
     private MyOnClickListener myOnClickListener;
 
     private int mCurrentIndex = 0;
+
+    private boolean mIsCheat;
 
     private final TrueFalse[] mQuestionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_oceans, true),
@@ -51,6 +55,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mIsCheat = savedInstanceState.getBoolean(KEY_HAS_CHEAT, false);
         }
 
         myOnClickListener = new MyOnClickListener();
@@ -86,10 +91,12 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.btn_previous:
                     mCurrentIndex = (mCurrentIndex - 1 + mQuestionBank.length) % mQuestionBank.length;
+                    mIsCheat = false;
                     updateQuestion();
                     break;
                 case R.id.btn_next:
                     mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                    mIsCheat = false;
                     updateQuestion();
                     break;
                 case R.id.btn_cheat:
@@ -99,11 +106,25 @@ public class MainActivity extends Activity {
                     //ActivityManager负责创建Activity实例并调用其onCreate(...)方法
                     boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
                     intent.putExtra(Config.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
-                    startActivity(intent);
+                    startActivityForResult(intent, Config.REQUEST_CODE_CHEAT);
                     break;
                 default:
                     break;
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //防止data为null，产生异常报错的代码
+        if (data == null) {
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case RESULT_OK:
+                mIsCheat = data.getBooleanExtra(Config.EXTRA_ANSWER_SHOWN, false);
+                break;
         }
     }
 
@@ -118,10 +139,15 @@ public class MainActivity extends Activity {
     private void checkAnswer(boolean isTrue) {
         boolean trueQuestion = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResId = 0;
-        if (isTrue == trueQuestion) {
-            messageResId = R.string.correct_toast;
+
+        if (mIsCheat) {
+            messageResId = R.string.judgment_toast;
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (isTrue == trueQuestion) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
         Toast.makeText(mContext, messageResId, Toast.LENGTH_SHORT).show();
     }
@@ -134,6 +160,7 @@ public class MainActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
         Log.e(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putBoolean(KEY_HAS_CHEAT, mIsCheat);
     }
 
     @Override
