@@ -97,6 +97,8 @@ public class MainActivity extends Activity {
                     //activity调用startActivity(...)方法时，调用请求发给了操作系统
                     //该方法调用请求是发送给操作系统的ActivityManager，
                     //ActivityManager负责创建Activity实例并调用其onCreate(...)方法
+                    boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
+                    intent.putExtra(Config.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
                     startActivity(intent);
                     break;
                 default:
