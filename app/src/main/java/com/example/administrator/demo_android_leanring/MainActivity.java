@@ -54,19 +54,19 @@ public class MainActivity extends Activity {
         }
 
         myOnClickListener = new MyOnClickListener();
-        tv_question = (TextView) findViewById(R.id.tv_question);
+        tv_question = findViewById(R.id.tv_question);
         updateQuestion();
 
-        btn_left = (Button) findViewById(R.id.btn_left);
-        btn_right = (Button) findViewById(R.id.btn_right);
-        btn_previous = (ImageButton) findViewById(R.id.btn_previous);
-        btn_next = (ImageButton) findViewById(R.id.btn_next);
+        btn_left = findViewById(R.id.btn_left);
+        btn_right = findViewById(R.id.btn_right);
+        btn_previous = findViewById(R.id.btn_previous);
+        btn_next = findViewById(R.id.btn_next);
         btn_left.setOnClickListener(myOnClickListener);
         btn_right.setOnClickListener(myOnClickListener);
         btn_previous.setOnClickListener(myOnClickListener);
         btn_next.setOnClickListener(myOnClickListener);
 
-        btn_cheat = (Button) findViewById(R.id.btn_cheat);
+        btn_cheat = findViewById(R.id.btn_cheat);
         btn_cheat.setOnClickListener(myOnClickListener);
     }
 
