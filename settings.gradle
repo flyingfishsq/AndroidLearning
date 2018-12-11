@@ -1,1 +1,1 @@
-include ':GeoQuiz', ':criminalintent'
+include ':app', ':criminalintent'
