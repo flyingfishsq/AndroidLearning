@@ -2,6 +2,7 @@ package com.example.administrator.demo_android_leanring;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ public class CheatActivity extends Activity {
     private static final String KEY_HAS_CHEAT = "has_cheat";
 
     private TextView tv_answer;
+    private TextView tv_version;
     private Button btn_show_answer;
 
     private boolean mAnswerIsTrue;
@@ -29,19 +31,20 @@ public class CheatActivity extends Activity {
 
         myOnClickListener = new MyOnClickListener();
         tv_answer = findViewById(R.id.tv_answer);
+        tv_version = findViewById(R.id.tv_version);
         btn_show_answer = findViewById(R.id.btn_show_answer);
         btn_show_answer.setOnClickListener(myOnClickListener);
 
         if (savedInstanceState != null) {
             mHasCheat = savedInstanceState.getBoolean(KEY_HAS_CHEAT, false);
             mAnswerIsTrue = savedInstanceState.getBoolean(KEY_ANSWER, false);
-            if(mHasCheat){
+            if (mHasCheat) {
                 setTvAnswer(mAnswerIsTrue);
             }
-        }else{
+        } else {
             mAnswerIsTrue = getIntent().getBooleanExtra(Config.EXTRA_ANSWER_IS_TRUE, false);
         }
-
+        tv_version.setText("API Level = " + Build.VERSION.SDK_INT);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class CheatActivity extends Activity {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_HAS_CHEAT, mHasCheat);
         outState.putBoolean(KEY_ANSWER, mAnswerIsTrue);
-        Log.e(TAG, "onSaveInstanceState" + "---mHasCheat = " + mHasCheat, new Throwable());
+        Log.e(TAG, TAG + "  onSaveInstanceState" + "---mHasCheat = " + mHasCheat);
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -68,7 +71,7 @@ public class CheatActivity extends Activity {
         setResult(RESULT_OK, intent);
     }
 
-    private void setTvAnswer(boolean bool){
+    private void setTvAnswer(boolean bool) {
         if (bool) {
             tv_answer.setText(R.string.true_button);
         } else {

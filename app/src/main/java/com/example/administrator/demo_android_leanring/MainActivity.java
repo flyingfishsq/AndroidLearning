@@ -1,8 +1,11 @@
 package com.example.administrator.demo_android_leanring;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +42,7 @@ public class MainActivity extends Activity {
             new TrueFalse(R.string.question_asia, true)
     };
 
+    @TargetApi(11)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,12 @@ public class MainActivity extends Activity {
 
         btn_cheat = findViewById(R.id.btn_cheat);
         btn_cheat.setOnClickListener(myOnClickListener);
+
+        //API11版本以后新增的API，对于API8的版本会报错
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getActionBar();
+            actionBar.setSubtitle("Bodies of Water");
+        }
     }
 
     class MyOnClickListener implements View.OnClickListener {
