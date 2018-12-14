@@ -1,6 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -29,13 +30,22 @@ public class CrimeListFragment extends ListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Crime item = ((CrimeAdapter) getListAdapter()).getItem(position);
 //        Crime item = (Crime) (getListAdapter().getItem(position));
-        Toast.makeText(getActivity(), item.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        //UUID是Serializable对象
+        intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, item.getId());
+        startActivity(intent);
     }
 
-    private class CrimeAdapter extends ArrayAdapter<Crime>{
+    private class CrimeAdapter extends ArrayAdapter<Crime> {
 
         //构造方法只绑定Crime对象的数组列表
         public CrimeAdapter(ArrayList<Crime> crimes) {
@@ -44,7 +54,7 @@ public class CrimeListFragment extends ListFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_crime, null);
             }
 
