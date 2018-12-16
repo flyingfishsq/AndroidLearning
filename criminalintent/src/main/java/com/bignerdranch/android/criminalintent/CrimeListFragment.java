@@ -39,7 +39,9 @@ public class CrimeListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         Crime item = ((CrimeAdapter) getListAdapter()).getItem(position);
 //        Crime item = (Crime) (getListAdapter().getItem(position));
-        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+//        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        Intent intent = new Intent(getActivity(),CrimePagerActivity.class);
+
         //UUID是Serializable对象
         intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, item.getId());
         startActivity(intent);
