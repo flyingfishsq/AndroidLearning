@@ -17,13 +17,18 @@ public class CrimeLab {
         mAppContext = appContext;
         mCrimes = new ArrayList<Crime>();
 
-        for (int i = 0; i < 100; i++) {
-            Crime c = new Crime();
-            c.setTitle("Crime #" + i);
-            int v = (int) (Math.random() * 100);
-            c.setSolved(v % 2 == 0);
-            mCrimes.add(c);
-        }
+        //可以手动添加crime记录，就不需要自动生成100条crime记录了
+//        for (int i = 0; i < 100; i++) {
+//            Crime c = new Crime();
+//            c.setTitle("Crime #" + i);
+//            int v = (int) (Math.random() * 100);
+//            c.setSolved(v % 2 == 0);
+//            mCrimes.add(c);
+//        }
+    }
+
+    public void addCrime(Crime c){
+        mCrimes.add(c);
     }
 
     public ArrayList<Crime> getCrimes() {
@@ -45,4 +50,5 @@ public class CrimeLab {
         }
         return sCrimeLab;
     }
+
 }

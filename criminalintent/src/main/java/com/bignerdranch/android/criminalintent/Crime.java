@@ -8,7 +8,7 @@ public class Crime {
     private UUID mId;
     private String mTitle;
     private Date mDate;
-    private Boolean mSolved;
+    private Boolean mSolved = false;
 
     //默认构造方法为每个实例化对象设置个随机UUID作为ID
     public Crime() {
