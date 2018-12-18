@@ -16,7 +16,7 @@ public class HelloMoonFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //用以解决转屏后音乐停止的问题，已保留的fragment不会随宿主activity的销毁而销毁，而是会一直保留并在需要时原封不到的传递给重建的activity
+        //用以解决转屏后音乐停止的问题，已保留的fragment不会随宿主activity的销毁而销毁，而是会一直保留并在需要时原封不动的传递给重建的activity
         setRetainInstance(true);
     }
 
