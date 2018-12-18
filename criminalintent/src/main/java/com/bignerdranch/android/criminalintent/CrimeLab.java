@@ -3,7 +3,6 @@ package com.bignerdranch.android.criminalintent;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 public class CrimeLab {
