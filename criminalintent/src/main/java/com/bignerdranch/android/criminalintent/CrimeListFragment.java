@@ -174,6 +174,12 @@ public class CrimeListFragment extends ListFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Crime item = ((CrimeAdapter) getListAdapter()).getItem(position);
 //        Crime item = (Crime) (getListAdapter().getItem(position));
