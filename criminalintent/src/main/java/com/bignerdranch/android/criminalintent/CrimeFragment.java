@@ -132,6 +132,13 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        //在不影响效率的前提下，尽量频繁地保存数据
+        CrimeLab.get(getActivity()).saveCrimes();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK)
             return;

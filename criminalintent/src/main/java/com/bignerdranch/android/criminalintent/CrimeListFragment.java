@@ -44,7 +44,7 @@ public class CrimeListFragment extends ListFragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list, menu);
         MenuItem item = menu.findItem(R.id.menu_item_show_subtitle);
-        if(mSubtitleVisible&&item!=null){
+        if (mSubtitleVisible && item != null) {
             item.setTitle(R.string.hide_subtitle);
         }
     }
@@ -81,8 +81,8 @@ public class CrimeListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-            if(mSubtitleVisible){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (mSubtitleVisible) {
                 getActivity().getActionBar().setSubtitle(R.string.subtitle);
             }
         }

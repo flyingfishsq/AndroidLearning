@@ -42,13 +42,13 @@ public class CrimePagerActivity extends FragmentActivity {
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                
+
             }
 
             @Override
             public void onPageSelected(int position) {
                 Crime crime = mCrimes.get(position);
-                if(crime.getTitle()!=null){
+                if (crime.getTitle() != null) {
                     setTitle(crime.getTitle());
                 }
             }
@@ -60,9 +60,9 @@ public class CrimePagerActivity extends FragmentActivity {
         });
 
         Intent intent = getIntent();
-        UUID crimeId = (UUID)(intent.getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID));
-        for(int i = 0;i<mCrimes.size();i++){
-            if(mCrimes.get(i).getId().equals(crimeId)){
+        UUID crimeId = (UUID) (intent.getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID));
+        for (int i = 0; i < mCrimes.size(); i++) {
+            if (mCrimes.get(i).getId().equals(crimeId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }
