@@ -19,9 +19,14 @@ public class CrimeLab {
 
     private CrimeLab(Context appContext) {
         mAppContext = appContext;
-        mCrimes = new ArrayList<Crime>();
-
         mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
+
+        try {
+            mCrimes = mSerializer.loadCrimes();
+        } catch (Exception ex) {
+            mCrimes = new ArrayList<Crime>();
+            Log.e(TAG, "Error loading crimes: ", ex);
+        }
 
         //可以手动添加crime记录，就不需要自动生成100条crime记录了
 //        for (int i = 0; i < 100; i++) {
@@ -35,6 +40,10 @@ public class CrimeLab {
 
     public void addCrime(Crime c) {
         mCrimes.add(c);
+    }
+
+    public void deleteCrime(Crime c){
+        mCrimes.remove(c);
     }
 
     public ArrayList<Crime> getCrimes() {
