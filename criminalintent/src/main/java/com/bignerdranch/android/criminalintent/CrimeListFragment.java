@@ -113,7 +113,7 @@ public class CrimeListFragment extends ListFragment {
             }
         }
 
-        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        ListView listView = v.findViewById(android.R.id.list);
         //在这里用下面语句获取listview总是null
         //        getListView();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {

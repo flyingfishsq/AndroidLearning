@@ -3,6 +3,8 @@ package com.bignerdranch.android.criminalintent;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -33,6 +36,8 @@ public class CrimeFragment extends Fragment {
     private EditText et_crime_title;
     private Button btn_crime_date;
     private CheckBox cb_crime_solved;
+
+    private ImageButton ib_image;
 
     private final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
 
@@ -128,6 +133,24 @@ public class CrimeFragment extends Fragment {
                 mCrime.setSolved(isChecked);
             }
         });
+
+        ib_image = v.findViewById(R.id.ib_image);
+        ib_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CrimeCameraActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        PackageManager pm = getActivity().getPackageManager();
+        boolean hasCamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)||pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)
+                ||Build.VERSION.SDK_INT<Build.VERSION_CODES.GINGERBREAD|| Camera.getNumberOfCameras()>0;
+
+        if(!hasCamera){
+            ib_image.setEnabled(false);
+        }
+
         return v;
     }
 
