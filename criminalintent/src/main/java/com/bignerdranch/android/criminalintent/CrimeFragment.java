@@ -73,7 +73,7 @@ public class CrimeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(NavUtils.getParentActivityName(getActivity()) != null){
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
                 return true;
@@ -90,7 +90,7 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if(NavUtils.getParentActivityName(getActivity())!=null){
+            if (NavUtils.getParentActivityName(getActivity()) != null) {
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
@@ -144,10 +144,10 @@ public class CrimeFragment extends Fragment {
         });
 
         PackageManager pm = getActivity().getPackageManager();
-        boolean hasCamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)||pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)
-                ||Build.VERSION.SDK_INT<Build.VERSION_CODES.GINGERBREAD|| Camera.getNumberOfCameras()>0;
+        boolean hasCamera = pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) || pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)
+                || Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD || Camera.getNumberOfCameras() > 0;
 
-        if(!hasCamera){
+        if (!hasCamera) {
             ib_image.setEnabled(false);
         }
 
