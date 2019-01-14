@@ -12,11 +12,14 @@ public class Crime {
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
+    private static final String JSON_PHOTO = "photo";
 
     private UUID mId;
     private String mTitle;
     private Date mDate;
     private Boolean mSolved = false;
+
+    private Photo mPhoto;
 
     //默认构造方法为每个实例化对象设置个随机UUID作为ID
     public Crime() {
@@ -52,6 +55,14 @@ public class Crime {
         this.mSolved = mSolved;
     }
 
+    public Photo getPhoto() {
+        return mPhoto;
+    }
+
+    public void setPhoto(Photo mPhoto) {
+        this.mPhoto = mPhoto;
+    }
+
     @Override
     public String toString() {
         return mTitle;
@@ -63,6 +74,8 @@ public class Crime {
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate.getTime());//是一个long型的数据
+        if(mPhoto!=null)
+            json.put(JSON_PHOTO, mPhoto.toJSON());
         return json;
     }
 
@@ -73,6 +86,8 @@ public class Crime {
         }
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new Date(json.getLong(JSON_DATE));
+        if(json.has(JSON_PHOTO)) {
+            mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
+        }
     }
-
 }
