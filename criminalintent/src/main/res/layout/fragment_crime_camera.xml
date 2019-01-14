@@ -12,14 +12,27 @@
             android:id="@+id/surfaceview_camera"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/btn_take_pic"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/take"/>
+            android:text="@string/take" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/crime_camera_progress_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true">
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </FrameLayout>
