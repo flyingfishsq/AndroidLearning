@@ -9,10 +9,15 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 
     protected abstract Fragment createFragment();
 
+    //子类可以选择覆盖这个方法以返回所需布局
+    protected int getLayoutResId(){
+        return R.layout.activity_fragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(getLayoutResId());
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragmentById = fm.findFragmentById(R.id.fl_container);

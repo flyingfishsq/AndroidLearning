@@ -1,6 +1,7 @@
 package com.bignerdranch.android.criminalintent;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class CrimeListFragment extends ListFragment {
     private final String TAG = CrimeListFragment.class.getSimpleName();
     private ArrayList<Crime> mCrimes;
     private boolean mSubtitleVisible;
+    private Callbacks mCallbacks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,22 @@ public class CrimeListFragment extends ListFragment {
 
         CrimeAdapter adapter = new CrimeAdapter(mCrimes);
         setListAdapter(adapter);
+    }
+
+    public interface Callbacks{
+        void onCrimeSelected(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     //选项菜单的回调方法
@@ -61,9 +79,12 @@ public class CrimeListFragment extends ListFragment {
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
 
-                Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
-                intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-                startActivityForResult(intent, 0);
+//                Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
+//                intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+//                startActivityForResult(intent, 0);
+
+                ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_show_subtitle:
                 if (getActivity().getActionBar().getSubtitle() == null) {
@@ -182,13 +203,15 @@ public class CrimeListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Crime item = ((CrimeAdapter) getListAdapter()).getItem(position);
-//        Crime item = (Crime) (getListAdapter().getItem(position));
-//        Intent intent = new Intent(getActivity(), CrimeActivity.class);
-        Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
+////        Crime item = (Crime) (getListAdapter().getItem(position));
+////        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+//        Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
+//
+//        //UUID是Serializable对象
+//        intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, item.getId());
+//        startActivity(intent);
 
-        //UUID是Serializable对象
-        intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, item.getId());
-        startActivity(intent);
+        mCallbacks.onCrimeSelected(item);
     }
 
     private class CrimeAdapter extends ArrayAdapter<Crime> {
