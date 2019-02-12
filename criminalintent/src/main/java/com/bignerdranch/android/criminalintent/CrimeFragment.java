@@ -53,7 +53,21 @@ public class CrimeFragment extends Fragment {
 
     private Button btn_suspect;
 
-//    private final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
+    private Callbacks mCallbacks;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+    //    private final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
 
     //这个启动Fragment的方法非常重要
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -122,6 +136,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mCrime.setTitle(charSequence.toString());
+                mCallbacks.onCrimeUpdated(mCrime);
             }
 
             @Override
@@ -145,6 +160,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 mCrime.setSolved(isChecked);
+                mCallbacks.onCrimeUpdated(mCrime);
             }
         });
 
@@ -224,6 +240,7 @@ public class CrimeFragment extends Fragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
+            mCallbacks.onCrimeUpdated(mCrime);
             updateDate();
         } else if (requestCode == REQUEST_PHOTO) {
             String fileName = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
@@ -231,6 +248,7 @@ public class CrimeFragment extends Fragment {
 
                 Photo photo = new Photo(fileName);
                 mCrime.setPhoto(photo);
+                mCallbacks.onCrimeUpdated(mCrime);
                 showPhoto();
 //                Log.i(TAG, "Crime: " + mCrime.getTitle() + " has a photo");
             }
@@ -248,6 +266,7 @@ public class CrimeFragment extends Fragment {
             cursor.moveToFirst();
             String suspect = cursor.getString(0);
             mCrime.setSuspect(suspect);
+            mCallbacks.onCrimeUpdated(mCrime);
             btn_suspect.setText(suspect);
             cursor.close();
         }
@@ -300,5 +319,9 @@ public class CrimeFragment extends Fragment {
 
         String report = getString(R.string.crime_report, mCrime.getTitle(), dateString, solvedString, suspect);
         return report;
+    }
+
+    public interface Callbacks{
+        void onCrimeUpdated(Crime crime);
     }
 }
