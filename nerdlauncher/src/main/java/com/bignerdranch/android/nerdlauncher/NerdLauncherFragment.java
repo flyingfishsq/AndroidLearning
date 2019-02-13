@@ -68,6 +68,9 @@ public class NerdLauncherFragment extends ListFragment {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setClassName(activityInfo.applicationInfo.packageName, activityInfo.name);
 
+        //系统默认是由当前任务启动新activity，以下语句是为启动新activity时启动新任务
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         startActivity(intent);
     }
 }
