@@ -1,1 +1,1 @@
-include ':app', ':criminalintent', ':hellomoon', ':nerdlauncher', ':remotecontrol'
+include ':app', ':criminalintent', ':hellomoon', ':nerdlauncher', ':remotecontrol', ':photogallery'
