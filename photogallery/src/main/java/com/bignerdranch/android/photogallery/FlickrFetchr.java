@@ -18,6 +18,13 @@ import java.util.List;
 public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
 
+    public static final String PREF_SEARCH_QUERY = "searchQuery";
+
+    private static final String FETCH_RECENTS_METHOD = "fetch_recents_method";
+    private static final String SEARCH_METHOD = "search_method";
+    private static final Uri ENDPOINT = Uri.parse("https://moment.douban.com/api/auth_authors/all").buildUpon()
+            .appendQueryParameter("count", "20").build();
+
     byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -46,14 +53,25 @@ public class FlickrFetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public List<GalleryItem> fetchItems() {
+    public List<GalleryItem> fetchRecentPhotos(){
+        String url = buildUrl(FETCH_RECENTS_METHOD, null);
+        return downloadGalleryItems(url);
+    }
+
+    public List<GalleryItem> searchPhotos(String query){
+        String url = buildUrl(SEARCH_METHOD, query);
+        return downloadGalleryItems(url);
+    }
+
+    private List<GalleryItem> downloadGalleryItems(String url) {
 
         List<GalleryItem> items = new ArrayList<GalleryItem>();
 
         try {
-            String url = Uri.parse("https://moment.douban.com/api/auth_authors/all").buildUpon()
-                    .appendQueryParameter("count", "20")
-                    .appendQueryParameter("start", "20").build().toString();
+//            String url = Uri.parse("https://moment.douban.com/api/auth_authors/all").buildUpon()
+//                    .appendQueryParameter("count", "20")
+//                    .appendQueryParameter("start", "20").build().toString();
+
             String jsonString = getUrl(url);
             Log.e(TAG, "Received JSON: " + jsonString);
             JSONObject jsonBody = new JSONObject(jsonString);
@@ -84,5 +102,16 @@ public class FlickrFetchr {
             item.setUrl(photoJsonObject.getString("large_avatar"));
             items.add(item);
         }
+    }
+
+    private String buildUrl(String method, String query){
+        Uri.Builder builder = null;
+        if(!method.equals(SEARCH_METHOD)) {
+            builder = ENDPOINT.buildUpon().appendQueryParameter("start", "20");
+        }else{
+            builder = ENDPOINT.buildUpon().appendQueryParameter("start", query);
+        }
+
+        return  builder.build().toString();
     }
 }
