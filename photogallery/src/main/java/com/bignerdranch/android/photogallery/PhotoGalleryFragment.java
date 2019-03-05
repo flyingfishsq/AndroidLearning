@@ -1,10 +1,15 @@
 package com.bignerdranch.android.photogallery;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ComponentName;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -66,22 +71,16 @@ public class PhotoGalleryFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_photo_gallery, menu);
 
-//        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
-//        final SearchView searchView = (SearchView) searchItem.getActionView();
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Log.e(TAG, "QueryTextSubmit: " + query);
-//                updateItems();
-//                return true;
-//            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//            MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+//            SearchView searchView = (SearchView) searchItem.getActionView();
+//            SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 //
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                Log.e(TAG, "QueryTextChange: " + newText);
-//                return false;
-//            }
-//        });
+//            ComponentName name = getActivity().getComponentName();
+//            SearchableInfo searchInfo = searchManager.getSearchableInfo(name);
+//
+//            searchView.setSearchableInfo(searchInfo);
+        }
     }
 
     @Override
@@ -91,7 +90,7 @@ public class PhotoGalleryFragment extends Fragment {
                 getActivity().onSearchRequested();
                 return true;
             case R.id.menu_item_clear:
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(FlickrFetchr.PREF_SEARCH_QUERY,null).commit();
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(FlickrFetchr.PREF_SEARCH_QUERY, null).commit();
                 updateItems();
                 return true;
             default:
@@ -124,7 +123,7 @@ public class PhotoGalleryFragment extends Fragment {
 //            String query = "robot";//测试
 
             Activity activity = getActivity();
-            if(activity == null)
+            if (activity == null)
                 return new ArrayList<GalleryItem>();
 
             String query = PreferenceManager.getDefaultSharedPreferences(activity).getString(FlickrFetchr.PREF_SEARCH_QUERY, null);
