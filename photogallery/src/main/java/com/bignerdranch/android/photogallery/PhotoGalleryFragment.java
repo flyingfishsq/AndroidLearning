@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -51,6 +52,10 @@ public class PhotoGalleryFragment extends Fragment {
 
 //        new FetchItemsTask().execute();
         updateItems();
+        PollService.setServiceAlarm(getActivity(), true);
+
+        Intent intent = new Intent(getActivity(), PollService.class);
+        getActivity().startService(intent);
 
         Handler responseHandler = new Handler();
         mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);

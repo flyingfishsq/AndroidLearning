@@ -19,6 +19,7 @@ public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
 
     public static final String PREF_SEARCH_QUERY = "searchQuery";
+    public static final String PREF_LAST_RESULT_ID = "lastResultId";
 
     private static final String FETCH_RECENTS_METHOD = "fetch_recents_method";
     private static final String SEARCH_METHOD = "search_method";
